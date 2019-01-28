@@ -10,9 +10,8 @@ $(document).ready(function() {
       items.forEach((item) => store.addItem(item));
       shoppingList.render();
     });
-});
 
-store.items.push(Item.create('apples'));
+});
 
 /*api.getItems()
   .then(res => res.json())
