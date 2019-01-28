@@ -23,12 +23,16 @@ const api = function (){
     }
 
     function updateItem(id, updateData){
-        fetch(`${BASE_URL}/items/${id}`, {
+        const updatedItem = JSON.stringify({
+            name: updateData
+        })
+
+        return fetch(`${BASE_URL}/items/${id}`, {
             method: 'PATCH',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(updateData)
+            body: updatedItem
         })
     }
 
