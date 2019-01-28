@@ -23,9 +23,7 @@ const api = function (){
     }
 
     function updateItem(id, updateData){
-        const updatedItem = JSON.stringify({
-            name: updateData
-        })
+        const updatedItem = JSON.stringify(updateData);
 
         return fetch(`${BASE_URL}/items/${id}`, {
             method: 'PATCH',
