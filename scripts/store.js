@@ -1,3 +1,5 @@
+'use strict'
+
 /* global Item */
 
 // eslint-disable-next-line no-unused-vars
@@ -26,8 +28,8 @@ const store = (function(){
   // };
 
   const findAndUpdate = function (id, newData) {
-    const item = this.findById(id);
-    return Object.assign(item, newData);
+    const newItem = this.findById(id);
+    return Object.assign(newItem, newData);
   };
 
   const findAndDelete = function (id) {

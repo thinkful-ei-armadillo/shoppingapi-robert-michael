@@ -1,4 +1,5 @@
 /* global store, $ */
+'use strict';
 
 // eslint-disable-next-line no-unused-vars
 const shoppingList = (function(){
@@ -66,16 +67,12 @@ const shoppingList = (function(){
       event.preventDefault();
       const newItemName = $('.js-shopping-list-entry').val();
       $('.js-shopping-list-entry').val('');
+      
       api.createItem(newItemName)
-        .then(res=>{
-          let test = res.json()
-          console.log(test);
-          return test
-        })
         .then((newItem) => {
           store.addItem(newItem);
           render();
-        })
+        });
     });
   }
   
@@ -88,16 +85,14 @@ const shoppingList = (function(){
   function handleItemCheckClicked() {
     $('.js-shopping-list').on('click', '.js-item-toggle', event => {
       const id = getItemIdFromElement(event.currentTarget);
-      const item = store.findById(id).checked;
-      console.log(item);
-      api.updateItem(id, !item)
-        .then(res => res.json()) 
-        .then((item) => {  
-           store.findAndUpdate(id, {checked: item})
-           render();
-        })
-      });  
-  }
+      const checkedItem = !store.findById(id).checked;
+      
+      api.updateItem(id, { checked: checkedItem}) 
+        .then(store.findAndUpdate(id, {checked: checkedItem}));
+            render();
+        });
+      }  
+  
   
   function handleDeleteItemClicked() {
     // like in `handleItemCheckClicked`, we use event delegation
@@ -105,9 +100,10 @@ const shoppingList = (function(){
       // get the index of the item in store.items
       const id = getItemIdFromElement(event.currentTarget);
       // delete the item
-      store.findAndDelete(id);
+      api.deleteItem(id);
+        store.findAndDelete(id);
       // render the updated shopping list
-      render();
+        render();
     });
   }
   
@@ -116,8 +112,8 @@ const shoppingList = (function(){
       event.preventDefault();
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
-      api.updateItem(id, { name: itemName });
-      store.findAndUpdate(id, { name: itemName });
+      api.updateItem(id, itemName);
+      store.findAndUpdate(id, itemName);
       render();
       
     });
